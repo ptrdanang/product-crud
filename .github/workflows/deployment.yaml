@@ -83,7 +83,7 @@ jobs:
       
        - name: Checking Node
          run: kubectl get node -A
-                
+
        - name: Delete Old Secrett
          run: kubectl delete secret pod-secret
 
@@ -102,7 +102,7 @@ jobs:
                   
        - name: Delete Old Deployment
          run:  |
-          kubectl delete deployment flask
+          kubectl delete deployment
           kubectl delete svc flask-app-service 
           
        - name: Deploy to EKS
