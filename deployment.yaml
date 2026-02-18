@@ -6,15 +6,16 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: flask-app
+      app: flask
   template:
     metadata:
       labels:
-        app: flask-app
+        app: flask
     spec:
       containers:
         - name: flask
-          image: 831282768463.dkr.ecr.us-east-1.amazonaws.com/test:latest
+          # Variabel ini diisi otomatis oleh CICD lewat envsubst
+          image: ${IMAGE_URL}
           ports:
             - containerPort: 5000
           env:
@@ -39,7 +40,7 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
 spec:
   selector:
-    app: flask-app
+    app: flask
   ports:
     - protocol: TCP
       port: 80
