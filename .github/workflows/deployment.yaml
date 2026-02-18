@@ -89,8 +89,6 @@ jobs:
 
        - name: Create Secret
          run: |
-            - name: Create Secret
-         run: |
             kubectl create secret generic pod-secret \
             --from-literal=API_URL=${{ secrets.API_URL }} \
             --from-literal=API_KEY=${{ secrets.API_KEY }} \
