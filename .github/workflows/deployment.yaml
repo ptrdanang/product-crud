@@ -80,12 +80,9 @@ jobs:
        - name: Configure kubectl
          run: |
            aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ secrets.EKS_CLUSTER_NAME }}
-      
-       - name: Checking Node
-         run: kubectl get node -A
                 
-       - name: Delete Old Secrett
-         run: kubectl delete secret pod-secret
+       - name: Delete Old Secret
+         run: kubectl delete secret pod-secret --ignore-not-found=true
 
        - name: Create Secret
          run: |
@@ -93,14 +90,6 @@ jobs:
             --from-literal=API_URL=${{ secrets.API_URL }} \
             --from-literal=API_KEY=${{ secrets.API_KEY }} \
             --dry-run=client -o yaml | kubectl apply -f -
-           # --from-literal=DB_USER=${{ secrets.AWS_RDS_USERNAME }} \
-           # --from-literal=DB_PASSWORD=${{ secrets.AWS_RDS_PASSWORD }} \
-           # --from-literal=DB_DATABASE=${{ secrets.AWS_RDS_DATABASE }} \
-           # --from-literal=API_URL=${{ secrets.API_URL }} \
-           # --from-literal=S3_BUCKET=${{ secrets.S3_BUCKET_NAME }} \
-           # --from-literal=AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
-           # --from-literal=AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
-           # --from-literal=AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
                   
        - name: Delete Old Deployment
          run:  |
@@ -109,12 +98,11 @@ jobs:
           
        - name: Deploy to EKS
          env:
-           ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
            ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
-           IMAGE_TAG: ${{ github.sha }}
-           API_KEY: ${{ secrets.API_KEY }}
+           IMAGE_TAG: flask-latest
          run: |
            envsubst < deployment.yaml | kubectl apply -f -
           
        - name: Verify Deployment
-         run: kubectl get pods 
+         run: kubectl get pods

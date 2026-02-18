@@ -18,17 +18,16 @@ spec:
           ports:
             - containerPort: 5000
           env:
-            - name: API_URL
-              valueFrom:
-                secretKeyRef:
-                  name: pod-secret
-                  key: API_URL
-            - name: API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: pod-secret
-                  key: API_KEY
-       
+          - name: API_URL
+            valueFrom:
+              secretKeyRef:
+                name: pod-secret
+                key: API_URL
+          - name: API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: pod-secret
+                key: API_KEY      
 ---
 apiVersion: v1
 kind: Service
