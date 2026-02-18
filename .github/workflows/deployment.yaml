@@ -90,9 +90,7 @@ jobs:
        - name: Create Secret
          run: |
             kubectl create secret generic pod-secret \
-            --from-literal=API_URL=${{ secrets.API_URL }} \
-            --from-literal=API_KEY=${{ secrets.API_KEY }} \
-            --dry-run=client -o yaml | kubectl apply -f -
+            --from-literal=API_URL=${{ secrets.AWS_RDS_HOST }} \
            # --from-literal=DB_USER=${{ secrets.AWS_RDS_USERNAME }} \
            # --from-literal=DB_PASSWORD=${{ secrets.AWS_RDS_PASSWORD }} \
            # --from-literal=DB_DATABASE=${{ secrets.AWS_RDS_DATABASE }} \
