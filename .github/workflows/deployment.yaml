@@ -101,8 +101,6 @@ jobs:
            # --from-literal=AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
            # --from-literal=AWS_SESSION_TOKEN=${{ secrets.AWS_SESSION_TOKEN }}
                   
-
-
        - name: Delete Old Deployment
          run:  |
           kubectl delete deployment flask
@@ -115,7 +113,6 @@ jobs:
            IMAGE_TAG: ${{ github.sha }}
          run: |
            envsubst < deployment.yaml | kubectl apply -f -
-
-           
+          
        - name: Verify Deployment
          run: kubectl get pods 
