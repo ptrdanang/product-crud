@@ -10,6 +10,7 @@ except:
     pass
 
 API_URL = os.getenv("API_URL")
+API_KEY = os.getenv("API_KEY")
 
 app = Flask(__name__)
 app.secret_key = "secret"
