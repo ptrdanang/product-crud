@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: flask
-          image: 800802900236.dkr.ecr.us-east-1.amazonaws.com/inventory:flask-latest
+          image: 831282768463.dkr.ecr.us-east-1.amazonaws.com/test:flask-latest
           ports:
             - containerPort: 5000
           env:
@@ -23,9 +23,7 @@ spec:
                 secretKeyRef:
                   name: pod-secret
                   key: API_URL
-
-            
-        
+       
 ---
 apiVersion: v1
 kind: Service
