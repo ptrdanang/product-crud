@@ -75,10 +75,14 @@ jobs:
             kubectl create secret generic pod-secret \
             --from-literal=API_URL='${{ secrets.API_URL }}' \
             --from-literal=API_KEY='${{ secrets.API_KEY }}'
+       
+       # LANGKAH PENTING: Menghapus deployment lama agar selector bisa diupdate
+       - name: Clean Old Deployment
+         run: |
+            kubectl delete deployment flask --ignore-not-found=true
                   
        - name: Deploy to EKS
          env:
-           # Variabel ini akan menggantikan ${IMAGE_URL} di file deployment.yaml aplikasi
            IMAGE_URL: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:flask-latest
          run: |
            envsubst < deployment.yaml | kubectl apply -f -
